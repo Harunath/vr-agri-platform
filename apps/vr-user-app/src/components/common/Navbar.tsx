@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaBars, FaTimes } from "react-icons/fa";
+import Image from "next/image";
 
 export default function Navbar() {
 	const [isOpen, setIsOpen] = useState(false);
@@ -33,18 +34,18 @@ export default function Navbar() {
 				scrolled ? "bg-white shadow-md" : "bg-transparent"
 			}`}>
 			<div
-				className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between ${
-					scrolled ? "text-black" : "text-white"
-				}`}>
+				className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between text-black`}>
 				{/* Logo */}
-				<Link
-					href="/"
-					className={`text-xl font-extrabold tracking-wide ${
-						scrolled ? "text-black" : "text-white"
-					}`}>
-					VR Agri Farms
+				<Link href="/" className="block">
+					<Image
+						src="https://res.cloudinary.com/dgulr1hgd/image/upload/v1752675634/VR_KISAN_PARIVAAR-04_1_rbcvyz.png"
+						alt="VR Agri Farms Logo"
+						width={96}
+						height={96}
+						className="h-full w-auto"
+						priority
+					/>
 				</Link>
-
 				{/* Mobile Toggle */}
 				<button
 					onClick={() => setIsOpen(!isOpen)}
@@ -64,7 +65,7 @@ export default function Navbar() {
 				</button>
 
 				{/* Desktop Menu */}
-				<div className="hidden md:flex gap-6 font-medium text-base">
+				<div className="hidden md:flex gap-6 font-medium text-base text-gray-800">
 					{navLinks.map((link) => (
 						<Link
 							key={link.href}
@@ -73,8 +74,8 @@ export default function Navbar() {
 								pathname === link.href
 									? "text-orange-500"
 									: scrolled
-									? "text-gray-800 hover:text-orange-500"
-									: "text-white hover:text-orange-400"
+									? " hover:text-orange-500"
+									: " hover:text-orange-400"
 							}`}>
 							{link.name}
 						</Link>

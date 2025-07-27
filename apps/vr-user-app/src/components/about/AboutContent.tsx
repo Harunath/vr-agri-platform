@@ -1,68 +1,92 @@
-import Image from "next/image";
+"use client";
 
-const sections = [
-	{
-		title: "Who We Are",
-		content:
-			"At VR Agri Farms, we combine our love for agriculture with a commitment to social responsibility, fostering a deep connection with nature. As experts in farmland sales and management, we empower our clients to embrace a fulfilling lifestyle.",
-		image:
-			"https://res.cloudinary.com/degrggosz/image/upload/v1718358325/about_who_we_are.jpg",
-	},
-	{
-		title: "What We Do",
-		content:
-			"We support farmland buyers by creating the best financial growth opportunities — including livestock management and crop cultivation — through our extensive market network and domain expertise.",
-		image:
-			"https://res.cloudinary.com/degrggosz/image/upload/v1718358350/about_what_we_do.jpg",
-	},
-	{
-		title: "Our Approach",
-		content:
-			"We focus on implementing advanced farming technologies and natural methods. Our approach ensures long-term sustainability, better yields, and environmentally responsible land stewardship.",
-		image:
-			"https://res.cloudinary.com/degrggosz/image/upload/v1718358391/about_approach.jpg",
-	},
-	{
-		title: "Join the Movement",
-		content:
-			"Whether you’re a first-time investor or a seasoned landowner, VR Agri Farms invites you to be a part of a future-forward, sustainable, and profitable farming revolution. Together, we grow green and grow smart.",
-		image:
-			"https://res.cloudinary.com/degrggosz/image/upload/v1718358434/about_join.jpg",
-	},
-];
-
-export default function AboutContent() {
+export default function WhatWeDoSection() {
 	return (
-		<section className="bg-white py-16 px-4">
-			<div className="max-w-6xl mx-auto space-y-24">
-				{sections.map((section, index) => (
-					<div
-						key={index}
-						className={`flex flex-col-reverse md:flex-row ${
-							index % 2 !== 0 ? "md:flex-row-reverse" : ""
-						} items-center gap-10`}>
-						{/* Text */}
-						<div className="md:w-1/2">
-							<h3 className="text-3xl font-semibold text-[#2F855A] mb-4">
-								{section.title}
-							</h3>
-							<p className="text-lg text-[#2D3748] leading-relaxed">
-								{section.content}
-							</p>
-						</div>
-
-						{/* Image */}
-						<div className="md:w-1/2 w-full rounded-lg overflow-hidden shadow-lg">
-							<Image
-								src={section.image}
-								alt={section.title}
-								width={600}
-								height={400}
-								className="w-full h-auto object-cover rounded-md"
-							/>
-						</div>
+		<section className="bg-gray-50 py-16 sm:py-20 lg:py-24 px-6 sm:px-10 lg:px-24 space-y-10">
+			{/* What We Do */}
+			<div className="grid lg:grid-cols-2 gap-14 items-center">
+				{/* Text */}
+				<div>
+					<h2 className="text-4xl font-bold text-black mb-6 mt-0 flex items-center gap-3">
+						What We Do
+					</h2>
+					<div className="space-y-5 text-lg text-gray-700 leading-relaxed">
+						<p>
+							We help farmland buyers explore growth opportunities through smart
+							agriculture, connecting them with reliable support for livestock
+							management and crop cultivation.
+						</p>
+						<p>
+							With deep market expertise and strong networks, we simplify the
+							process of farmland investment and create meaningful long-term
+							value for our clients.
+						</p>
 					</div>
-				))}
+				</div>
+
+				{/* Image */}
+				<div className="w-full h-72 md:h-[420px] overflow-hidden shadow-lg rounded-2xl">
+					<div
+						className="w-full h-full bg-cover bg-center transition-all duration-300 hover:scale-[1.02] rounded-2xl"
+						style={{
+							backgroundImage:
+								"url('https://res.cloudinary.com/dgulr1hgd/image/upload/v1752473766/farmers-shaking-hands-during-harvest_cp2837.jpg')",
+						}}
+					/>
+				</div>
+			</div>
+
+			{/* Our Approach */}
+			<div className="grid lg:grid-cols-2 gap-14 items-center">
+				{/* Image */}
+				<div className="w-full h-72 md:h-[420px] overflow-hidden shadow-lg rounded-2xl">
+					<div
+						className="w-full h-full bg-cover bg-center transition-all duration-300 hover:scale-[1.02] rounded-2xl"
+						style={{
+							backgroundImage:
+								"url('https://res.cloudinary.com/dgulr1hgd/image/upload/v1752474120/Agricultural-Systems-of-the-World_uf0f5q.jpg')",
+						}}
+					/>
+				</div>
+
+				{/* Text */}
+				<div>
+					<h2 className="text-4xl font-bold text-black mb-6 mt-0 flex items-center gap-3">
+						Our Approach
+					</h2>
+					<div className="space-y-5 text-lg text-gray-700 leading-relaxed">
+						<p>
+							We combine advanced farming technologies with eco-friendly methods
+							to build agricultural ecosystems that are both productive and
+							sustainable.
+						</p>
+						<p>
+							Our vision is rooted in long-term land stewardship, where
+							innovation enhances yield while preserving the natural environment
+							for future generations.
+						</p>
+					</div>
+				</div>
+			</div>
+
+			{/* Join the Movement */}
+			<div className="text-center max-w-3xl mx-auto">
+				<h2 className="text-4xl font-bold text-black mb-6 mt-0 flex justify-center items-center gap-3">
+					Join the Movement
+				</h2>
+				<p className="text-lg text-gray-800 leading-relaxed mb-6">
+					Whether you&apos;re a first-time investor or a seasoned landowner,{" "}
+					<span className="font-semibold text-orange-600">VR Agri Farms</span>{" "}
+					welcomes you to be part of a forward-thinking farming revolution where
+					growth meets sustainability.
+				</p>
+				<p className="text-lg text-gray-800 leading-relaxed mb-10">
+					Together, we grow green, grow smart, and build a thriving future for
+					Indian agriculture.
+				</p>
+				<button className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 rounded-full text-lg font-medium transition duration-300 shadow-md">
+					Get Started
+				</button>
 			</div>
 		</section>
 	);

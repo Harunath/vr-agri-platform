@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { FiMapPin, FiPhone, FiMail, FiGlobe, FiSend } from "react-icons/fi";
 
 export default function ContactMain() {
 	const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -20,99 +21,108 @@ export default function ContactMain() {
 	};
 
 	return (
-		<section className="bg-[#FDFCF5] min-h-screen py-16 px-4">
+		<section className="bg-white min-h-screen py-16 px-4 text-black">
 			<div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
-				{/* Contact Info */}
-				<div>
-					<h1 className="text-4xl font-bold text-[#2F855A] mb-6">Contact Us</h1>
-					<p className="text-[#2D3748] mb-8">
+				{/* Left Section - Contact Info */}
+				<div className="border border-orange-500 p-8 rounded-md">
+					<h3 className="text-orange-600 font-semibold text-sm mb-2 uppercase">
+						Contact Us
+					</h3>
+					<h1 className="text-4xl font-bold mb-4">Contact Us</h1>
+					<p className="text-gray-600 mb-6">
 						Have questions or want to get started with your farmland journey?
 						Reach out to us anytime.
 					</p>
 
-					<div className="space-y-4 text-[#2D3748] text-base">
-						<p>
-							📍 <strong>Address:</strong>
-							<br />
-							#101, Dwarakapuri Colony,
-							<br />
-							Hyderabad, Telangana – 500082
-						</p>
+					<hr className="border-t border-orange-500 my-6" />
 
-						<p>
-							✉️ <strong>Email:</strong>
-							<br />
-							<a
-								href="mailto:contact@vrkisanparivaar.com"
-								className="text-[#2F855A] hover:underline">
-								contact@vrkisanparivaar.com
-							</a>
-						</p>
+					<div className="space-y-6 text-gray-800 text-sm">
+						<div className="flex gap-4">
+							<FiMapPin className="text-orange-500 mt-1" />
+							<div>
+								<p className="font-bold">Address</p>
+								<p>
+									#101, Dwarakapuri Colony,
+									<br />
+									Hyderabad, Telangana – 500082
+								</p>
+							</div>
+						</div>
 
-						<p>
-							📞 <strong>Phone:</strong>
-							<br />
-							<a
-								href="tel:+919515934289"
-								className="text-[#2F855A] hover:underline">
-								+91 9515934289
-							</a>
-						</p>
+						<div className="flex gap-4">
+							<FiMail className="text-orange-500 mt-1" />
+							<div>
+								<p className="font-bold">Email</p>
+								<p>contact@vrkisanparivaar.com</p>
+							</div>
+						</div>
 
-						<p>
-							🌐 <strong>Website:</strong>
-							<br />
-							<a
-								href="https://www.vrkisanparivaar.co"
-								target="_blank"
-								rel="noopener noreferrer"
-								className="text-[#2F855A] hover:underline">
-								www.vrkisanparivaar.co
-							</a>
-						</p>
+						<div className="flex gap-4">
+							<FiPhone className="text-orange-500 mt-1" />
+							<div>
+								<p className="font-bold">Phone</p>
+								<p>+91 9515934289</p>
+							</div>
+						</div>
+
+						<div className="flex gap-4">
+							<FiGlobe className="text-orange-500 mt-1" />
+							<div>
+								<p className="font-bold">Website</p>
+								<p>www.vrkisanparivaar.co</p>
+							</div>
+						</div>
 					</div>
 				</div>
 
-				{/* Contact Form */}
+				{/* Right Section - Contact Form */}
 				<form
 					onSubmit={handleSubmit}
-					className="bg-white shadow-lg rounded-lg border border-[#A0C49D] p-8 space-y-6">
-					<h2 className="text-2xl font-semibold text-[#2F855A]">
+					className="bg-slate-100 shadow-2xl rounded-md p-8 space-y-6">
+					<h2 className="text-2xl font-semibold text-gray-800">
 						Send us a message
 					</h2>
 
-					<input
-						type="text"
-						name="name"
-						value={form.name}
-						onChange={handleChange}
-						placeholder="Your Name"
-						required
-						className="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#2F855A]"
-					/>
+					<div>
+						<input
+							type="text"
+							name="name"
+							value={form.name}
+							onChange={handleChange}
+							required
+							placeholder="Your Name"
+							className="w-full border border-gray-300 rounded px-4 py-3 mt-1 focus:outline-none focus:ring-2 focus:ring-orange-500"
+						/>
+					</div>
 
-					<input
-						type="email"
-						name="email"
-						value={form.email}
-						onChange={handleChange}
-						placeholder="Your Email"
-						required
-						className="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#2F855A]"
-					/>
+					<div>
+						<input
+							type="email"
+							name="email"
+							value={form.email}
+							onChange={handleChange}
+							required
+							placeholder="Your Email"
+							className="w-full border border-gray-300 rounded px-4 py-3 mt-1 focus:outline-none focus:ring-2 focus:ring-orange-500"
+						/>
+					</div>
 
-					<textarea
-						name="message"
-						value={form.message}
-						onChange={handleChange}
-						placeholder="Your Message"
-						rows={5}
-						required
-						className="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#2F855A]"></textarea>
+					<div>
+						<textarea
+							name="message"
+							value={form.message}
+							onChange={handleChange}
+							required
+							rows={5}
+							placeholder="Your Message"
+							className="w-full border border-gray-300 rounded px-4 py-3 mt-1 focus:outline-none focus:ring-2 focus:ring-orange-500"
+						/>
+					</div>
 
 					<button
 						type="submit"
-						className="bg-[#F6BE00] hover:bg-yellow-500 text-white font-medium px-6 py-3 rounded transition">
+						className="bg-orange-500 hover:bg-orange-600 text-white font-medium px-6 py-3 rounded inline-flex items-center transition">
+						<FiSend className="mr-2" />
 						Send Message
 					</button>
 

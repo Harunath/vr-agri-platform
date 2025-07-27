@@ -52,13 +52,15 @@ export default function HeroCarousel() {
 				viewport={{ once: true }}
 				className="absolute top-1/4 lg:top-[30%] left-0 md:left-12 lg:left-24 ml-4 sm:ml-8 p-4 sm:p-6 max-w-xl w-[90%] sm:w-[80%] bg-black/10 rounded-lg">
 				<h1 className="font-bold text-xl sm:text-3xl md:text-4xl lg:text-5xl text-white mb-4 leading-tight">
-					Empowering Sustainable Living with Nature
+					<span className="block">Grow Naturally.</span>
+					<span className="block">Live Sustainably.</span>
 				</h1>
+
 				<p className="text-white text-sm sm:text-base md:text-lg mb-6 leading-relaxed">
-					At VR Agri Farms, we combine our love for agriculture with a
-					commitment to social responsibility. From farmland sales to natural
-					farming solutions, we help you embrace a lifestyle rooted in
-					sustainability and growth.
+					At VR Agri Farms, we help you own and cultivate farmland with ease.
+					From organic crops to livestock integration, our fully managed
+					solutions make it simple to live closer to nature while building real,
+					lasting value.
 				</p>
 				<Link
 					href="/about"

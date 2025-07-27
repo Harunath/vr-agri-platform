@@ -8,16 +8,24 @@ import {
 	FaInstagram,
 	FaLinkedinIn,
 } from "react-icons/fa";
+import Image from "next/image";
 
 export default function Footer() {
 	return (
-		<footer className="bg-[#1a1a1a] text-white ">
+		<footer className="bg-black text-white ">
 			<div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
 				{/* Company Info */}
 				<div>
-					<h3 className="text-xl font-bold mb-2 text-orange-500">VR Agri Farms</h3>
+					<Image
+						src="https://res.cloudinary.com/dgulr1hgd/image/upload/v1752675634/VR_KISAN_PARIVAAR-04_1_rbcvyz.png"
+						alt="VR Agri Farms Logo"
+						width={160}
+						height={60}
+						className="h-16 w-auto mb-4 bg-white p-2"
+					/>
+
 					<p className="text-sm leading-relaxed text-gray-300">
-						Empowering sustainable farming through innovation, nature, and community.
+						Grow Naturally. Live Sustainably.
 					</p>
 
 					{/* Social Icons */}
@@ -53,7 +61,11 @@ export default function Footer() {
 						{["Home", "About Us", "Projects", "Contact"].map((name, i) => (
 							<li key={i}>
 								<Link
-									href={`/${name.toLowerCase().replace(/\s/g, "-") === "home" ? "" : name.toLowerCase().replace(/\s/g, "-")}`}
+									href={`/${
+										name.toLowerCase().replace(/\s/g, "-") === "home"
+											? ""
+											: name.toLowerCase().replace(/\s/g, "-")
+									}`}
 									className="hover:text-orange-500 transition-colors">
 									{name}
 								</Link>
@@ -125,7 +137,8 @@ export default function Footer() {
 
 			<div className="bg-[#111] text-center text-sm py-4 text-gray-400">
 				© {new Date().getFullYear()}{" "}
-				<span className="text-orange-500 font-semibold">VR Agri Farms</span>. All rights reserved.
+				<span className="text-orange-500 font-semibold">VR Agri Farms</span>.
+				All rights reserved.
 				<br />
 				Developed by{" "}
 				<a
