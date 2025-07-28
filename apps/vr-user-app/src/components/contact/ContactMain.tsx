@@ -69,7 +69,7 @@ export default function ContactMain() {
 							<FiGlobe className="text-orange-500 mt-1" />
 							<div>
 								<p className="font-bold">Website</p>
-								<p>www.vrkisanparivaar.co</p>
+								<p>www.vragrifarms.com</p>
 							</div>
 						</div>
 					</div>
