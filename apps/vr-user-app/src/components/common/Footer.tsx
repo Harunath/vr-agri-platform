@@ -110,7 +110,7 @@ export default function Footer() {
 							<a
 								href="mailto:contact@vrkisanparivaar.com"
 								className="hover:text-orange-500 transition-colors">
-								contact@vrkisanparivaar.com
+								contact@vragrifarms.com
 							</a>
 						</li>
 						<li className="flex items-center gap-2">
@@ -124,7 +124,7 @@ export default function Footer() {
 						<li className="flex items-center gap-2">
 							<FaGlobe className="text-orange-500" />
 							<a
-								href="https://www.vrkisanparivaar.co"
+								href="https://www.vrkisanparivaar.com"
 								target="_blank"
 								rel="noopener noreferrer"
 								className="hover:text-orange-500 transition-colors">

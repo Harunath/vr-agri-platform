@@ -14,7 +14,7 @@ function AboutHome() {
 			<AboutContent />
 			<Mission />
 			<Vision />
-			<CoreTeam/>
+			{/* <CoreTeam/> */}
 		</>
 	);
 }

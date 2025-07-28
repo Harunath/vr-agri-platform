@@ -53,7 +53,7 @@ export default function ContactMain() {
 							<FiMail className="text-orange-500 mt-1" />
 							<div>
 								<p className="font-bold">Email</p>
-								<p>contact@vrkisanparivaar.com</p>
+								<p>contact@vragrifarms.com</p>
 							</div>
 						</div>
 
