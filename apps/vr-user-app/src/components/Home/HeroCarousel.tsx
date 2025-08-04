@@ -9,9 +9,13 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const carouselImages = [
-	"https://res.cloudinary.com/dgulr1hgd/image/upload/v1750923739/1598226_u7zss4.jpg",
-	"https://res.cloudinary.com/dgulr1hgd/image/upload/v1750923873/1154575_ejfwd4.jpg",
-	"https://res.cloudinary.com/dgulr1hgd/image/upload/v1750924055/659813_uqcqrv.jpg",
+	"https://res.cloudinary.com/diaoy3wzi/image/upload/v1754285435/Screenshot_2025-08-02_151329_ed7dta.png",
+	"https://res.cloudinary.com/diaoy3wzi/image/upload/v1754285450/Screenshot_2025-08-02_151411_tpyshu.png",
+	"https://res.cloudinary.com/diaoy3wzi/image/upload/v1754286400/Screenshot_2025-08-04_111212_tj9mgx.png",
+	"https://res.cloudinary.com/diaoy3wzi/image/upload/v1754286398/Screenshot_2025-08-04_111332_gcpig7.png",
+	"https://res.cloudinary.com/diaoy3wzi/image/upload/v1754286395/Screenshot_2025-08-04_111401_cdeabu.png",
+	"https://res.cloudinary.com/diaoy3wzi/image/upload/v1754286394/Screenshot_2025-08-04_111440_qejxqe.png",
+	"https://res.cloudinary.com/diaoy3wzi/image/upload/v1754286389/Screenshot_2025-08-04_111537_kp3r40.png",
 ];
 
 export default function HeroCarousel() {
@@ -24,6 +28,7 @@ export default function HeroCarousel() {
 		autoplay: true,
 		autoplaySpeed: 4000,
 		pauseOnHover: false,
+		focusOnSelect: true,
 		arrows: false,
 	};
 
@@ -37,7 +42,7 @@ export default function HeroCarousel() {
 							alt={`Slide ${index + 1}`}
 							height={1080}
 							width={1920}
-							className="h-full w-full object-cover opacity-90"
+							className="h-full w-full object-contain opacity-90"
 							priority={index === 0}
 						/>
 					</div>
