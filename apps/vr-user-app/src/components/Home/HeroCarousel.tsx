@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import Slider from "react-slick";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -33,10 +33,10 @@ export default function HeroCarousel() {
 	};
 
 	return (
-		<div className="w-screen h-[calc(100vh/2)] lg:h-screen relative overflow-hidden">
+		<div className="w-screen h-[calc(100vh/2)] md:h-screen relative overflow-hidden">
 			<Slider {...settings}>
 				{carouselImages.map((src, index) => (
-					<div key={index} className="relative h-[calc(100vh/2)] lg:h-screen">
+					<div key={index} className="relative h-[calc(100vh/2)] md:h-screen">
 						<Image
 							src={src}
 							alt={`Slide ${index + 1}`}
@@ -47,6 +47,45 @@ export default function HeroCarousel() {
 						/>
 					</div>
 				))}
+				{/* Contact Slide */}
+				<div className="h-[calc(100vh/2)] lg:h-screen flex justify-center items-center">
+					<div className="h-full  flex flex-col justify-center items-center bg-white/80 rounded-xl shadow-xl p-8 text-center">
+						<h2 className="text-3xl lg:text-6xl font-bold text-green-800 mb-4">
+							Contact Us
+						</h2>
+						<ul className="text-gray-800 space-y-3 text-lg lg:text-2xl">
+							<li>
+								📧 <span className="font-medium">vragrifarms@gmail.com</span>
+							</li>
+							<li>
+								📧{" "}
+								<span className="font-medium">contact@vrkisanparivaar.com</span>
+							</li>
+							<li>
+								🏢 <span className="font-medium">Corp Office:</span> #101,
+								Rajeshwari Towers, Dwarakapuri Colony, Hyd-82
+							</li>
+							<li>
+								🌐{" "}
+								<a
+									href="https://www.vragrifarms.com"
+									target="_blank"
+									className="text-blue-600 underline">
+									www.vragrifarms.com
+								</a>
+							</li>
+							<li>
+								🌐{" "}
+								<a
+									href="https://www.vrkisanparivaar.com"
+									target="_blank"
+									className="text-blue-600 underline">
+									www.vrkisanparivaar.com
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
 			</Slider>
 
 			{/* Text Overlay */}
