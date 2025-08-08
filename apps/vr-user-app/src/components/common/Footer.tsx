@@ -101,7 +101,7 @@ export default function Footer() {
 						<li className="flex items-start gap-2">
 							<FaMapMarkerAlt className="mt-1 text-orange-500" />
 							<div>
-								<p>#101, Dwarakapuri Colony</p>
+								<p>#101, Dwarakapuri Colony, Panjagutta</p>
 								<p>Hyderabad, Telangana – 500082</p>
 							</div>
 						</li>
@@ -119,6 +119,16 @@ export default function Footer() {
 								href="tel:+919515934289"
 								className="hover:text-orange-500 transition-colors">
 								+91 9515934289
+							</a>
+						</li>
+						<li className="flex items-center gap-2">
+							<FaGlobe className="text-orange-500" />
+							<a
+								href="https://www.vragrifarms.com"
+								target="_blank"
+								rel="noopener noreferrer"
+								className="hover:text-orange-500 transition-colors">
+								vragrifarms.com
 							</a>
 						</li>
 						<li className="flex items-center gap-2">
