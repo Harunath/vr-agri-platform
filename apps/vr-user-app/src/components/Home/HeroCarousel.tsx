@@ -58,8 +58,7 @@ export default function HeroCarousel() {
 								📧 <span className="font-medium">vragrifarms@gmail.com</span>
 							</li>
 							<li>
-								📧{" "}
-								<span className="font-medium">contact@vrkisanparivaar.com</span>
+								📧 <span className="font-medium">contact@vragrifarms.com</span>
 							</li>
 							<li>
 								🏢 <span className="font-medium">Corp Office:</span> #101,
@@ -74,7 +73,7 @@ export default function HeroCarousel() {
 									www.vragrifarms.com
 								</a>
 							</li>
-							<li>
+							{/* <li>
 								🌐{" "}
 								<a
 									href="https://www.vrkisanparivaar.com"
@@ -82,7 +81,7 @@ export default function HeroCarousel() {
 									className="text-blue-600 underline">
 									www.vrkisanparivaar.com
 								</a>
-							</li>
+							</li> */}
 						</ul>
 					</div>
 				</div>
