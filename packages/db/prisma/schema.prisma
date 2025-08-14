@@ -9,186 +9,60 @@ datasource db {
 }
 
 
-enum ADMIN_ROLE {
-  SUPER
-  ADMIN
-  TRESASURAR
+/// -------------------- Enums --------------------
+
+enum Role {
+  SUPER_ADMIN
+  COMMAND_ADMIN
+  FINANCE_ADMIN
+  TEAM_LEADER
+  AGENT
+  CUSTOMER
 }
 
-// Top-level admin model
-model Admin {
-  id               String             @id @default(uuid())
-  email            String             @unique
-  emailVerified    Boolean            @default(false)
-  password         String
-  fullname         String
-  phone            String?            @unique
-  phoneVerified    Boolean?           @default(false)
-  role             ADMIN_ROLE
-  // franchises
-  address          Json?
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
-
+enum AccountStatus {
+  PENDING_APPROVAL   // Just registered; needs Command Admin approval
+  ACTIVE
+  SUSPENDED
+  DEACTIVATED        // e.g., auto-deactivated after 90 days inactivity; reactivation requires SA/CA
 }
 
-
-// User Model
-model User {
-  id             String      @id @default(uuid())
-
-  fullname    String
-
-  relationType  RelationType // Optional, as not everyone needs to specify a relation
-  relationName  String
-
-  dob           DateTime
-  address       Json
-  phone         String @unique
-  email         String @unique
-  emailVerified Boolean
-
-  aadhaar       String
-  aadhaarVerified Boolean
-
-  gender      GenderType @default(None)
-  userPhoto      String
-
-  referralId    String @unique
-
-  parentReferralId    String?
-  directJoin    User[] @relation("UserDirectJoin")
-  joinedBy      User?  @relation("UserDirectJoin", fields: [parentReferralId], references: [referralId])
-
-  parentBId       String?
-  parentCId       String?
-
-  TnCAcceptance TnCAcceptance?
-
-  healthCard    Boolean @default(false)
-
-  nominieeName  String
-  nominieeDob   DateTime
-  relationship  String
-
-
-  deleted        Boolean     @default(false)
-  deactivated    Boolean     @default(false)
-
-  onBoardingId   String   @unique
-  onBoarding     Onboarding   @relation("UserOnboarding", fields: [onBoardingId], references: [id])
-
-  orderId        String @unique
-  order          Order  @relation("paymentOrder", fields: [orderId], references: [id])
-
-  bankDetails   BankDetails?
-  
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+  UNSPECIFIED
 }
 
-enum GenderType {
-  Male
-  Female
-  Others
-  None
+enum UnitType {
+  SQ_YARD
+  GUNTA
+  ACRE
 }
 
-enum RelationType {
-  So   @map("S/o")
-  Do   @map("D/o")
-  Wo   @map("W/o")
+enum Facing {
+  NORTH
+  SOUTH
+  EAST
+  WEST
+  NORTH_EAST
+  NORTH_WEST
+  SOUTH_EAST
+  SOUTH_WEST
+  UNKNOWN
 }
 
-enum TCOptions {
-  ACCEPTED
-  REJECTED
+enum PlotStatus {
+  AVAILABLE
+  RESERVED
+  SOLD
+  BLOCKED
 }
 
-model Onboarding {
-  id             String      @id @default(uuid())
-  fullname    String
-
-  relationType  RelationType // Optional, as not everyone needs to specify a relation
-  relationName  String
-
-  dob           DateTime
-  address       Json
-  phone         String @unique
-  phoneVerified Boolean
-  email         String
-  emailVerified Boolean
-  aadhaar       String
-  aadhaarVerified Boolean
-  gender      GenderType @default(None)
-  userPhoto      String
-
-  nominieeName  String
-  nominieeDob   DateTime
-  relationship  String
-
-  referralId    String? @unique
-
-  TnCAcceptance TnCAcceptance?
-
-  onBoardingFinished  Boolean @default(false)
-  user        User?     @relation("UserOnboarding")
-  orders          Order[] @relation("OnBoardingPaymentOrder")
-
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
-}
-
-model BankDetails {
-  id             String      @id @default(uuid())
-
-  bankName       String
-  accountNumber String
-  ifscCode      String
-  branch        String
-
-  userId        String  @unique
-  User          User  @relation(fields: [userId],references: [id],onDelete: Cascade)
-
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
-}
-
-model GmailVerificationCode {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  code      String
-  expiresAt DateTime
-  createdAt DateTime @default(now())
-}
-
-model PhoneVerificationCode {
-  id        String   @id @default(uuid())
-  phone     String   @unique
-  code      String
-  expiresAt DateTime
-  createdAt DateTime @default(now())
-}
-
-
-model Order {
-  id             String      @id @default(cuid())
-  paymentOrderId String   @unique
-  paymentSessionId String  @unique
-  status         OrderStatus @default(PENDING)
-  totalAmount    Decimal     @default(3999)
-  currency       String      @default("INR")
-  notes          String?
-  itemDetailsSnapshot Json?
-
-  payments       Payment[]
-
-  user           User?       @relation("paymentOrder")
-  onBoardingId   String
-  onBoarding     Onboarding  @relation("OnBoardingPaymentOrder", fields: [onBoardingId], references: [id])
-
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
+enum SaleType {
+  ONE_TIME
+  EMI           // Subscription-like EMI
+  SMALL_UNIT
 }
 
 enum OrderStatus {
@@ -208,46 +82,588 @@ enum PaymentStatus {
   FLAGGED
 }
 
-model Payment {
-  id                  String       @id @default(cuid())
-  paymentOrderId   String    @unique
-  paymentSessionId    String    @unique 
-  status              PaymentStatus @default(INITIATED)
-  amount              Decimal
-  currency            String       @default("INR")
-  paymentMethod       String?
-  gatewayResponse     Json?
-  errorMessage        String?
-
-  processedAt         DateTime?    
-
-  orderId             String       
-  order               Order        @relation(fields: [orderId], references: [id], onDelete: Cascade)
-
-  createdAt           DateTime     @default(now())
-  updatedAt           DateTime     @updatedAt
+enum PaymentGateway {
+  CASHFREE
+  RAZORPAY
+  STRIPE
+  MANUAL
 }
 
+enum NotificationChannel {
+  EMAIL
+  SMS
+  PUSH
+  SYSTEM
+}
 
-model TnCVersion {
-  id        String   @id @default(uuid())
-  version   String   // e.g., "v1.0", "v2.1"
-  content   String   // optional: store plain text or markdown
-  TnCAcceptance TnCAcceptance[]
+enum NotificationStatus {
+  QUEUED
+  SENT
+  FAILED
+}
+
+enum AuditAction {
+  LOGIN
+  LOGOUT
+  CREATE
+  UPDATE
+  DELETE
+  APPROVE
+  REJECT
+  DEACTIVATE
+  REACTIVATE
+  PASSWORD_RESET
+  PERMISSION_OVERRIDE
+  PAYMENT_CAPTURE
+  PAYMENT_REFUND
+}
+
+enum TargetType {
+  USER
+  PLOT
+  SALE
+  ORDER
+  PAYMENT
+  COMMISSION
+  POLICY
+  NOTIFICATION
+  DOCUMENT
+  OTHER
+}
+
+/// -------------------- Core Identity --------------------
+
+model User {
+  id                 String         @id @default(cuid())
+  email              String         @unique
+  phone              String?        @unique
+  passwordHash       String
+  role               Role
+  status             AccountStatus   @default(PENDING_APPROVAL)
+
+  // Basic profile
+  firstName          String
+  lastName           String
+  gender             Gender          @default(UNSPECIFIED)
+  dob                DateTime
+  address            Json
+  profileImageUrl    String?
+
+  // Hierarchy
+  reportsToId        String?         // TL reports to Command Admin; Agents report to TL; FA reports to CA; CA to SA
+  reportsTo          User?           @relation("UserReportsTo", fields: [reportsToId], references: [id])
+  subordinates       User[]          @relation("UserReportsTo")
+
+  // Lifecycle
+  registrationAt     DateTime        @default(now())
+  approvedAt         DateTime?
+  approvedById       String?
+  approvedBy         User?           @relation("UserApprovedBy", fields: [approvedById], references: [id])
+  approvedUsers      User[]          @relation("UserApprovedBy")
+  lastLoginAt        DateTime?
+  deactivatedAt      DateTime?
+  deactivationReason String?
+
+  // Consents
+  termsAcceptances   TermsAcceptance[]
+
+  // inverse of Policy.updatedBy
+  policiesUpdated      Policy[]          @relation("UserUpdatedPolicies")
+
+  // inverse of PolicyRevision.changedBy
+  policyRevisionsMade  PolicyRevision[]  @relation("UserPolicyRevisions")
+
+  // Password reset tokens
+  passwordResetTokens PasswordResetToken[]
+
+  // Customer-only
+  nominee            Nominee?
+  customerRecords    CustomerRecord[]
+
+  // Agent/TL identifiers
+  referralCode       String?         @unique // for Agents; system-generated
+  agentMeta          AgentMeta?
+  teamLeaderMeta     TeamLeaderMeta?
+
+  // Relations
+  createdPlots       Plot[]          @relation("PlotCreatedBy")
+  updatedPlots       Plot[]          @relation("PlotUpdatedBy")
+  assignedPlots      Plot[]          @relation("PlotAssignedToCustomer")
+  sales              Sale[]          @relation("SaleCustomer")
+  soldBySales        Sale[]          @relation("SaleAgent")
+  approvedSales      Sale[]          @relation("SaleApprovedBy")
+  agentCommissions   Commission[]    @relation("AgentCommissions")
+  teamLeaderCommissions Commission[] @relation("TeamLeaderCommissions")
+
+  // Payment ecosystem
+  orders             Order[]         @relation("UserOrders")
+  payments           Payment[]       @relation("UserPayments")
+
+  // Referrals
+  registrationReferral RegistrationReferral?
+  registrationsReferred RegistrationReferral[] @relation("RegistrationReferredBy")
+  salesReferred        SaleReferral[]          @relation("SaleReferredBy")
+  salesAsSeller        SaleReferral[]          @relation("SaleSoldBy")
+
+  // Audit / Notifications
+  auditLogs           AuditLog[]      @relation("ActorAuditLogs")
+  notifications       Notification[]
+
+  // Documents
+  documents           Document[]
+
+  // Payouts created by this user
+  createdPayouts      Payout[]        @relation("UserCreatedPayouts")
+
+  @@index([role])
+  @@index([status])
+  @@index([reportsToId])
+}
+
+model Nominee {
+  id        String  @id @default(cuid())
+  userId    String  @unique
+  user      User    @relation(fields: [userId], references: [id])
+  name      String
+  dob       DateTime
+  relation  String
+  address   Json?
+  aadhaar   String?
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-model TnCAcceptance {
-  id           String      @id @default(uuid())
-  userId       String?     @unique
-  user         User?       @relation(fields: [userId], references: [id])
-  
-  onboardingId String      @unique
-  onboarding   Onboarding  @relation(fields: [onboardingId], references: [id])
+model AgentMeta {
+  id        String  @id @default(cuid())
+  userId    String  @unique
+  user      User    @relation(fields: [userId], references: [id])
+  // add agent-specific stats later if needed
+}
 
-  tncVersionId String
-  tncVersion   TnCVersion  @relation(fields: [tncVersionId], references: [id])
+model TeamLeaderMeta {
+  id        String  @id @default(cuid())
+  userId    String  @unique
+  user      User    @relation(fields: [userId], references: [id])
+  // add TL-specific stats later if needed
+}
 
-  acceptedAt   DateTime    @default(now())
-  createdAt    DateTime    @default(now())
+/// For capturing customer specifics that are not universal to all users.
+model CustomerRecord {
+  id        String  @id @default(cuid())
+  userId    String  @unique
+  user      User    @relation(fields: [userId], references: [id])
+  // future: KYC status, risk flags, etc.
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// -------------------- Layout / Inventory --------------------
+
+model Layout {
+  id           String   @id @default(cuid())
+  name         String
+  address      Json?
+  mapImageUrl  String?
+  plots        Plot[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Plot {
+  id               String     @id @default(cuid())
+  layoutId         String
+  layout           Layout     @relation(fields: [layoutId], references: [id])
+
+  surveyNumber     String
+  plotNumber       String
+  plotCode         String
+  facing           Facing     @default(UNKNOWN)
+
+  areaValue        Decimal    @db.Decimal(18,4)
+  areaUnit         UnitType
+
+  status           PlotStatus @default(AVAILABLE)
+
+  // assignment
+  assignedToUserId String?    // Customer who owns it
+  assignedToUser   User?      @relation("PlotAssignedToCustomer", fields: [assignedToUserId], references: [id])
+
+  // non-editable fields controlled by CA/SA (enforced in app layer)
+  applicationDate  DateTime?
+  registrationDate DateTime?
+
+  // audit of edits
+  createdById      String
+  createdBy        User       @relation("PlotCreatedBy", fields: [createdById], references: [id])
+  updatedById      String?
+  updatedBy        User?      @relation("PlotUpdatedBy", fields: [updatedById], references: [id])
+
+  sales            Sale[]
+
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  @@unique([layoutId, plotNumber])
+  @@index([plotCode])
+  @@index([status])
+}
+
+/// -------------------- Referrals --------------------
+
+/// When a *customer registers* via an agent’s referral
+model RegistrationReferral {
+  id            String @id @default(cuid())
+  referredUserId String  @unique
+  referredUser   User    @relation(fields: [referredUserId], references: [id])
+
+  referredByAgentId String
+  referredByAgent   User    @relation("RegistrationReferredBy", fields: [referredByAgentId], references: [id])
+
+  code          String
+  createdAt     DateTime @default(now())
+
+  @@index([referredByAgentId])
+  @@index([code])
+}
+
+/// When a *sale* happens, the referrer and the seller may be different.
+model SaleReferral {
+  id             String @id @default(cuid())
+  saleId         String @unique
+  sale           Sale   @relation(fields: [saleId], references: [id])
+
+  referredByAgentId String? // the agent whose link brought the buyer
+  referredByAgent   User?   @relation("SaleReferredBy", fields: [referredByAgentId], references: [id])
+
+  soldByAgentId     String   // the agent who closed the sale
+  soldByAgent       User     @relation("SaleSoldBy", fields: [soldByAgentId], references: [id])
+
+  createdAt       DateTime @default(now())
+}
+
+/// -------------------- Sales / EMI --------------------
+
+model Sale {
+  id               String    @id @default(cuid())
+  saleType         SaleType
+  plotId           String
+  plot             Plot      @relation(fields: [plotId], references: [id])
+
+  customerId       String
+  customer         User      @relation("SaleCustomer", fields: [customerId], references: [id])
+
+  // The agent who closed the sale (and optional referral captured in SaleReferral)
+  agentId          String
+  agent            User      @relation("SaleAgent", fields: [agentId], references: [id])
+
+  // Approval
+  approvedById     String?
+  approvedBy       User?     @relation("SaleApprovedBy", fields: [approvedById], references: [id])
+  approvedAt       DateTime?
+
+  // Financials snapshot
+  currency         String    @default("INR")
+  totalAmount      Decimal   @db.Decimal(18,2)
+  notes            String?
+  commissionPolicyId String?
+  commissionPolicy CommissionPolicy? @relation("CommissionPolicySales", fields: [commissionPolicyId], references: [id])
+
+  // Links
+  order            Order?
+  emiPlan          EMIPlan?
+
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  saleReferral     SaleReferral?
+
+  commissions      Commission[]
+
+  @@index([plotId])
+  @@index([customerId])
+  @@index([agentId])
+}
+
+model EMIPlan {
+  id              String   @id @default(cuid())
+  saleId          String   @unique
+  sale            Sale     @relation(fields: [saleId], references: [id])
+
+  numberOfMonths  Int
+  installmentAmt  Decimal  @db.Decimal(18,2)
+  startDate       DateTime
+  endDate         DateTime
+  schedule        EMISchedule[]
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model EMISchedule {
+  id              String   @id @default(cuid())
+  emiPlanId       String
+  emiPlan         EMIPlan  @relation(fields: [emiPlanId], references: [id])
+
+  dueDate         DateTime
+  amountDue       Decimal  @db.Decimal(18,2)
+  amountPaid      Decimal  @default(0) @db.Decimal(18,2)
+  isPaid          Boolean  @default(false)
+  paidAt          DateTime?
+  orderId         String?
+  order           Order?   @relation(fields: [orderId], references: [id])
+
+  createdAt       DateTime @default(now())
+
+  @@index([dueDate])
+}
+
+/// -------------------- Orders / Payments --------------------
+
+model Order {
+  id               String        @id @default(cuid())
+  paymentOrderId   String        @unique
+  paymentSessionId String        @unique
+  status           OrderStatus   @default(PENDING)
+  totalAmount      Decimal       @default(0) @db.Decimal(18,2)
+  currency         String        @default("INR")
+  notes            String?
+  itemSnapshot     Json?         // details of plot/sale at time of purchase
+
+  userId           String?       // payer (usually the customer)
+  user             User?         @relation("UserOrders", fields: [userId], references: [id])
+
+  saleId           String?       @unique
+  sale             Sale?         @relation(fields: [saleId], references: [id])
+
+  payments         Payment[]
+
+  emiSchedules     EMISchedule[]
+
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  @@index([status])
+}
+
+model Payment {
+  id               String        @id @default(cuid())
+  gateway          PaymentGateway
+  status           PaymentStatus @default(INITIATED)
+  amount           Decimal       @db.Decimal(18,2)
+  currency         String        @default("INR")
+  gatewayPaymentId String?
+  gatewayOrderId   String?
+  method           String?
+  email            String?
+  phone            String?
+
+  orderId          String
+  order            Order         @relation(fields: [orderId], references: [id])
+
+  userId           String?
+  user             User?         @relation("UserPayments", fields: [userId], references: [id])
+
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  @@index([status])
+  @@index([gateway])
+}
+
+/// -------------------- Commissions / Payouts --------------------
+
+model CommissionPolicy {
+  id                 String   @id @default(cuid())
+  name               String   @unique
+  description        String?
+  agentPercent       Decimal  @db.Decimal(5,2)  // e.g., 2.50 => 2.5%
+  teamLeaderPercent  Decimal  @db.Decimal(5,2)  // TL override
+  isActive           Boolean  @default(true)
+
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  commissions        Commission[]
+  sales              Sale[]   @relation("CommissionPolicySales")
+}
+
+model Commission {
+  id                 String   @id @default(cuid())
+  saleId             String
+  sale               Sale     @relation(fields: [saleId], references: [id])
+
+  policyId           String
+  policy             CommissionPolicy @relation(fields: [policyId], references: [id])
+
+  agentId            String?
+  agent              User?    @relation("AgentCommissions", fields: [agentId], references: [id])
+
+  teamLeader         User?    @relation("TeamLeaderCommissions", fields: [teamLeaderId], references: [id])
+  teamLeaderId       String?
+
+  baseAmount         Decimal  @db.Decimal(18,2)
+  agentAmount        Decimal  @db.Decimal(18,2)
+  teamLeaderAmount   Decimal  @default(0) @db.Decimal(18,2)
+
+  isSettled          Boolean  @default(false)
+  settledAt          DateTime?
+  payoutId           String?
+  payout             Payout?  @relation(fields: [payoutId], references: [id])
+
+  createdAt          DateTime @default(now())
+
+  @@index([agentId])
+  @@index([teamLeaderId])
+  @@index([isSettled])
+}
+
+model Payout {
+  id            String        @id @default(cuid())
+  reference     String        @unique
+  totalAmount   Decimal       @db.Decimal(18,2)
+  currency      String        @default("INR")
+  notes         String?
+  createdById   String
+  createdBy     User          @relation("UserCreatedPayouts", fields: [createdById], references: [id])
+
+  commissions   Commission[]
+
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+/// -------------------- Security / Policy / Audit --------------------
+
+model TermsAcceptance {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  version       String   // e.g. "v1.3"
+  acceptedAt    DateTime @default(now())
+  ipAddress     String?
+  userAgent     String?
+
+  @@unique([userId, version])
+  @@index([acceptedAt])
+}
+
+model EmailVerificationCode {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  code        String
+  expiresAt   DateTime
+  createdAt   DateTime @default(now())
+}
+
+model PhoneOtp {
+  id          String   @id @default(cuid())
+  phone       String   @unique
+  code        String
+  expiresAt   DateTime
+  createdAt   DateTime @default(now())
+}
+
+model PasswordResetToken {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  token       String   @unique
+  expiresAt   DateTime
+  usedAt      DateTime?
+  createdAt   DateTime @default(now())
+}
+
+// --- keep current value + link to full history ---
+model Policy {
+  id           String           @id @default(cuid())
+  key          String           @unique           // e.g. "INACTIVITY_DAYS", "PRIVACY_POLICY"
+  value        Json                                 // current effective value/content
+
+  // who last updated the current value
+  updatedById  String
+  updatedBy    User             @relation("UserUpdatedPolicies", fields: [updatedById], references: [id])
+
+  // full history (append-only)
+  revisions    PolicyRevision[]
+
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+}
+
+// --- append-only history of edits (each change by CA/SA) ---
+model PolicyRevision {
+  id           String   @id @default(cuid())
+
+  policyId     String
+  policy       Policy   @relation(fields: [policyId], references: [id])
+
+  // optional: store both before/after for auditing
+  oldValue     Json?
+  newValue     Json
+
+  version      Int                              // monotonic per policy (1,2,3,...)
+  note         String?                          // optional: reason/comment for change
+
+  changedById  String
+  changedBy    User     @relation("UserPolicyRevisions", fields: [changedById], references: [id])
+
+  createdAt    DateTime @default(now())
+
+  @@unique([policyId, version])                 // prevents duplicate version numbers
+  @@index([policyId, createdAt])
+}
+
+
+model AuditLog {
+  id          String      @id @default(cuid())
+  actorId     String
+  actor       User        @relation("ActorAuditLogs", fields: [actorId], references: [id])
+  actorRole   Role
+
+  action      AuditAction
+  targetType  TargetType
+  targetId    String?
+  description String?
+
+  meta        Json?
+
+  ipAddress   String?
+  userAgent   String?
+
+  createdAt   DateTime    @default(now())
+
+  @@index([actorId, createdAt])
+  @@index([targetType, targetId])
+  @@index([action])
+}
+
+/// -------------------- Notifications / Documents --------------------
+
+model Notification {
+  id            String               @id @default(cuid())
+  userId        String
+  user          User                 @relation(fields: [userId], references: [id])
+  channel       NotificationChannel
+  status        NotificationStatus   @default(QUEUED)
+  templateKey   String?
+  payload       Json?
+  error         String?
+
+  createdAt     DateTime             @default(now())
+  sentAt        DateTime?
+
+  @@index([userId, status])
+}
+
+model Document {
+  id            String   @id @default(cuid())
+  ownerId       String
+  owner         User     @relation(fields: [ownerId], references: [id])
+  kind          String   // e.g., "REGISTRATION_FORM", "ID_PROOF"
+  name          String
+  url           String
+  meta          Json?
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
