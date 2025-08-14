@@ -131,16 +131,7 @@ export default function Footer() {
 								vragrifarms.com
 							</a>
 						</li>
-						<li className="flex items-center gap-2">
-							<FaGlobe className="text-orange-500" />
-							<a
-								href="https://www.vrkisanparivaar.com"
-								target="_blank"
-								rel="noopener noreferrer"
-								className="hover:text-orange-500 transition-colors">
-								vrkisanparivaar.com
-							</a>
-						</li>
+						
 					</ul>
 				</div>
 			</div>
